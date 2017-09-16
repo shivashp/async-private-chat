@@ -2,9 +2,11 @@ import React from 'react'
 import {
 	View,
 	Text,
-	StyleSheet
+    StyleSheet,
+    LayoutAnimation
 } from 'react-native'
 import { RkTextInput, RkButton } from 'react-native-ui-kitten'
+import { navigate } from '../../utils'
 
 export class RoomSetup extends React.Component {
 
@@ -15,13 +17,34 @@ export class RoomSetup extends React.Component {
             nickNameError: ''
         }
         this.nickName = ''
+        this.roomName = ''
     }
 
     onPress = () => {
-        alert(' hi ther')
+        let err  = this.handleError()
+        
+        //no error
+        if(!err) {
+            navigate(
+                'Chat',
+                this
+            )
+        }
+    }
+
+    handleError = () => {
+
+        let isNickNameError = this.nickName.length == 0
+        let isroomNameError = this.roomName.length == 0
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
+        this.setState({
+            nickNameError: isNickNameError && 'Please enter the nickname',
+            roomNameError: isroomNameError && 'Please enter the room name'
+        })
+        return isNickNameError || isroomNameError
     }
     onTextInputChange = name => text => {
-        alert(name + text)
+        this[name] = text.trim()
     }
 
 	render() {
@@ -32,7 +55,7 @@ export class RoomSetup extends React.Component {
                 </Text>
 				<RkTextInput
 					placeholder='Room Name'
-                    onChangeText={this.onTextInputChange('roomname')}
+                    onChangeText={this.onTextInputChange('roomName')}
 				/>
                 <View style={styles.errorTextContainer}>
                     <Text>
@@ -41,7 +64,7 @@ export class RoomSetup extends React.Component {
                 </View>
 				<RkTextInput
 					placeholder='Your Nick name'
-                    onChangeText={this.onTextInputChange('nickname')}
+                    onChangeText={this.onTextInputChange('nickName')}
 				/>
                 <View style={styles.errorTextContainer}>
                     <Text>

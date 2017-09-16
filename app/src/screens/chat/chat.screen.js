@@ -10,7 +10,7 @@ export class Chat extends React.Component {
 	render() {
 		return (
 			<View>
-				<Text> HI there </Text>
+				<Text>this is shiva coming to rescue </Text>
 			</View>
 		)
 	}
