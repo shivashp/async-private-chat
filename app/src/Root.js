@@ -8,6 +8,14 @@ import {
 } from './screens'
 
 export const App = StackNavigator({
+    ChatSetup: {
+        screen: ChatSetup
+    },
+
+    Room: {
+        screen: RoomSetup,
+
+    },
     Chat: {
         screen: Chat
     },
@@ -16,9 +24,6 @@ export const App = StackNavigator({
     },
     Join: {
         screen: JoinSetup
-    },
-    ChatSetup: {
-        screen: ChatSetup
     }
 
 })
