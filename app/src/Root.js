@@ -1,6 +1,6 @@
 import { AppRegistry } from 'react-native'
 import { StackNavigator } from 'react-navigation'
-import { 
+import {
     ChatSetup,
     Chat,
     RoomSetup,
@@ -8,11 +8,11 @@ import {
 } from './screens'
 
 export const App = StackNavigator({
-    Setup: {
-        screen: ChatSetup
-    },
     Chat: {
         screen: Chat
+    },
+    Setup: {
+        screen: ChatSetup
     },
     Join: {
         screen: JoinSetup
@@ -22,4 +22,3 @@ export const App = StackNavigator({
     }
 
 })
-
