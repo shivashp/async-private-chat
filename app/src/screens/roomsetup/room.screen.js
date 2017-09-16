@@ -20,6 +20,7 @@ export class RoomSetup extends React.Component {
         }
         this.nickName = ''
         this.roomName = ''
+        this.websocket = null
     }
 
     onPress = () => {
@@ -27,11 +28,22 @@ export class RoomSetup extends React.Component {
         
         //no error
         if(!err) {
-            navigate(
-                'Chat',
-                this
-            )
+            //creare a socket object and when connected pass to the navigate
+            this.websocket = new WebSocket('ws://192.168.100.6:4000')
+            this.websocket.onopen = this.onSocketOpen
+            
         }
+    }
+
+    onSocketOpen = () => {
+        navigate(
+            'Chat',
+            this,
+            params= {
+                nickName: this.nickName,
+                websocket: this.websocket
+            }
+        )
     }
 
     handleError = () => {

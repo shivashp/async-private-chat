@@ -84,10 +84,19 @@ export class Chat extends React.Component {
 		};
 	}
 
+	componentWillMount = () => {
+		console.log(this.props.navigation)
+		const { params } = this.props.navigation.state
+		let websocket = params.websocket
+		websocket.send(`{"nickname":${params.nickName}, "message" :  "from the movile app"`)
+		console.log(websocket)
+		
+	}
+
 	componentDidMount() {
-    InteractionManager.runAfterInteractions(() => {
-      this.refs.list.scrollToEnd();
-    });
+		InteractionManager.runAfterInteractions(() => {
+		this.refs.list.scrollToEnd();
+		});
   }
 	_scroll() {
     if (Platform.OS === 'ios') {
