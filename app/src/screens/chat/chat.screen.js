@@ -8,7 +8,8 @@ import {
   Keyboard,
 	StatusBar,
 	UIManager,
-  Alert
+  Alert,
+  BackHandler
 } from 'react-native';
 import {InteractionManager} from 'react-native';
 import {
@@ -32,7 +33,7 @@ export class Chat extends React.Component {
 		data: {
 					messages: [
 						{
-							id: 0,
+							id: 1,
 							text: "Hello User",
 							time: new Date(),
 							type: 'out'
@@ -83,6 +84,19 @@ export class Chat extends React.Component {
 				}
 		};
 	}
+
+  componentWillMount() {
+    BackHandler.addEventListener('hardwareBackPress', function() {
+     Keyboard.dismiss();
+     return false;
+    });
+  }
+
+  componentWillUnMount() {
+    BackHandler.removeEventListener('hardwareBackPress', function() {
+     return false;
+    });
+  }
 
 	componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
@@ -164,17 +178,13 @@ export class Chat extends React.Component {
                   keyExtractor={this._keyExtractor}
                   renderItem={this._renderItem}/>
         <View style={styles.footer}>
-          <RkButton style={styles.plus} rkType='clear'>
-            <RkText rkType='awesome secondaryColor'>+</RkText>
-          </RkButton>
-
           <RkTextInput
             onFocus={() => this._scroll(true)}
             onBlur={() => this._scroll(true)}
             onChangeText={(message) => this.setState({message})}
             value={this.state.message}
 						style={{flex:1}}
-            rkType='row sticker'
+            rkType='rounded'
             placeholder="Type your message..."/>
 
           <RkButton onPress={() => this._pushMessage()} style={styles.send} rkType='circle highlight'>
@@ -202,9 +212,10 @@ let styles = RkStyleSheet.create(theme => ({
   },
   footer: {
     flexDirection: 'row',
+    marginTop:20,
     minHeight: 60,
     padding: 10,
-    backgroundColor: theme.colors.screen.alter
+    backgroundColor: '#f2f2f2'
   },
   item: {
     marginVertical: 14,
@@ -239,5 +250,6 @@ let styles = RkStyleSheet.create(theme => ({
     width: 40,
     height: 40,
     marginLeft: 10,
+    marginTop:10
   }
 }));
