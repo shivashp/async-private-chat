@@ -8,8 +8,30 @@ import {
 	RkButton,
 	RkText
 } from 'react-native-ui-kitten'
+import { NavigationActions } from 'react-navigation'
+import { navigate } from '../../utils'
 
 export class ChatSetup extends React.Component {
+
+	static CREATE_ROOM = 'CREATE_ROOM'
+	static JOIN_ROOM = 'JOIN_ROOM'
+
+	onPress = (action) => {
+		switch (action) {
+			case ChatSetup.CREATE_ROOM:
+				
+				navigate('Room', this)
+				break;
+
+			case ChatSetup.JOIN_ROOM:
+				navigate('Join', this)
+				break;
+				
+			default:
+				break;
+		}
+	}
+	
 
 	render() {
 		return (
@@ -20,25 +42,38 @@ export class ChatSetup extends React.Component {
 					</Text>
 				</View>
 				<View style={styles.mainContainer}>
-					<RkButton rkType='rounded' style={styles.button}>Create Room</RkButton>
+					<RkButton rkType='rounded' 
+						style={styles.button}
+						onPress={() => this.onPress(ChatSetup.CREATE_ROOM)}
+					>
+						Create Room
+					</RkButton>
 					<View style={{margin:7}}  />
-					<RkButton rkType='rounded' style={[styles.button, styles.sec]}>Join Room</RkButton>
+					<RkButton rkType='rounded'
+						style={[styles.button, styles.sec]}
+						onPress={() => this.onPress(ChatSetup.JOIN_ROOM)}
+					>
+						Join Room
+					</RkButton>
 				</View>
 			</View>
 		)
 	}
 }
 
+
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 	},
 	title: {
-		fontSize: 20,
-		fontWeight: 'bold'
+		fontSize: 40,
+		fontWeight: '300',
+		
 	},
 	titleContainer: {
-		flex: 3,
+		flex: 2,
 		alignItems: 'center',
 		justifyContent: 'center'
 	},

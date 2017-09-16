@@ -10,7 +10,7 @@ export class RoomSetup extends React.Component {
 	render() {
 		return (
 			<View>
-				<Text> HI there </Text>
+				<Text> Room setup screen </Text>
 			</View>
 		)
 	}

@@ -10,7 +10,7 @@ export class JoinSetup extends React.Component {
 	render() {
 		return (
 			<View>
-				<Text> HI there </Text>
+				<Text> This is join setup screen </Text>
 			</View>
 		)
 	}

@@ -12,8 +12,8 @@ export const App = StackNavigator({
         screen: ChatSetup
     },
     
-    Setup: {
-        screen: ChatSetup,
+    Room: {
+        screen: RoomSetup,
         
     },
     Chat: {
