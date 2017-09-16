@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Keyboard,
 	StatusBar,
+	UIManager,
   Alert
 } from 'react-native';
 import {InteractionManager} from 'react-native';
@@ -25,62 +26,63 @@ import {scale} from '../../utils/scale';
 
 export class Chat extends React.Component {
 	constructor(props) {
-    super(props);
-    this.state = {
-      data: {
-				messages: [
-					{
-						id: 0,
-						text: "Hello User",
-						time: new Date(),
-						type: 'out'
-					},
-					{
-						id: 1,
-						text: "How are you? ",
-						time: new Date(),
-						type: 'out'
-					},
-					{
-						id: 2,
-						text: "How are you? ",
-						time: new Date(),
-						type: 'out'
-					},
-					{
-						id: 3,
-						text: "How are you? ",
-						time: new Date(),
-						type: 'out'
-					},
-					{
-						id: 4,
-						text: "How are you? ",
-						time: new Date(),
-						type: 'out'
-					},
-					{
-						id: 5,
-						text: "How are you? ",
-						time: new Date(),
-						type: 'in'
-					},
-          {
-						id: 6,
-						text: "I am good ",
-						time: new Date(),
-						type: 'in'
-					},
-          {
-						id: 7,
-						text: "Tell me more",
-						time: new Date(),
-						type: 'in'
-					},
-				]
-			}
-    };
-  }
+		super(props);
+		UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+		this.state = {
+		data: {
+					messages: [
+						{
+							id: 0,
+							text: "Hello User",
+							time: new Date(),
+							type: 'out'
+						},
+						{
+							id: 1,
+							text: "How are you? ",
+							time: new Date(),
+							type: 'out'
+						},
+						{
+							id: 2,
+							text: "How are you? ",
+							time: new Date(),
+							type: 'out'
+						},
+						{
+							id: 3,
+							text: "How are you? ",
+							time: new Date(),
+							type: 'out'
+						},
+						{
+							id: 4,
+							text: "How are you? ",
+							time: new Date(),
+							type: 'out'
+						},
+						{
+							id: 5,
+							text: "How are you? ",
+							time: new Date(),
+							type: 'in'
+						},
+			{
+							id: 6,
+							text: "I am good ",
+							time: new Date(),
+							type: 'in'
+						},
+			{
+							id: 7,
+							text: "Tell me more",
+							time: new Date(),
+							type: 'in'
+						},
+					]
+				}
+		};
+	}
 
 	componentDidMount() {
     InteractionManager.runAfterInteractions(() => {

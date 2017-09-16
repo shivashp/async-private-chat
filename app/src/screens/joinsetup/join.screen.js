@@ -3,7 +3,8 @@ import {
 	View,
 	Text,
 	StyleSheet,
-	LayoutAnimation
+	LayoutAnimation,
+	UIManager
 } from 'react-native'
 import {
 	RkTextInput,
@@ -14,7 +15,8 @@ import { navigate } from '../../utils'
 export class JoinSetup extends React.Component {
 
 	constructor() {
-        super()
+		super()
+		UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
         this.state = {
             tokenNameError: '',
             nickNameError: ''

@@ -3,7 +3,8 @@ import {
 	View,
 	Text,
     StyleSheet,
-    LayoutAnimation
+    LayoutAnimation,
+    UIManager
 } from 'react-native'
 import { RkTextInput, RkButton } from 'react-native-ui-kitten'
 import { navigate } from '../../utils'
@@ -12,6 +13,7 @@ export class RoomSetup extends React.Component {
 
     constructor() {
         super()
+        UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
         this.state = {
             roomNameError: '',
             nickNameError: ''
