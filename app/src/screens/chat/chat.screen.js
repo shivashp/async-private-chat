@@ -21,7 +21,6 @@ import {
   RkTheme
 } from 'react-native-ui-kitten';
 import _ from 'lodash';
-import {FontAwesome} from '../../assets/icons';
 let moment = require('moment');
 import {scale} from '../../utils/scale';
 
@@ -196,7 +195,7 @@ let styles = RkStyleSheet.create(theme => ({
     paddingHorizontal: 17,
   },
   footer: {
-    flexDirection: 'row',    
+    flexDirection: 'row',
     minHeight: 60,
     padding: 10,
     backgroundColor: '#f2f2f2'

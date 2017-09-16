@@ -2,7 +2,8 @@ import React from 'react'
 import {
 	View,
 	Text,
-	StyleSheet
+	StyleSheet,
+	Image
 } from 'react-native'
 import {
 	RkButton,
@@ -37,9 +38,10 @@ export class ChatSetup extends React.Component {
 		return (
 			<View style={styles.container}>
 				<View style={styles.titleContainer}>
-					<Text style={styles.title}>
-						Private Chat
-					</Text>
+						<Image
+	          style={{width: 150, height: 130}}
+						source={require('../../assets/icons/icon.png')}
+	        />
 				</View>
 				<View style={styles.mainContainer}>
 					<RkButton rkType='rounded'
@@ -75,7 +77,8 @@ const styles = StyleSheet.create({
 	titleContainer: {
 		flex: 2,
 		alignItems: 'center',
-		justifyContent: 'center'
+		justifyContent: 'center',
+		paddingTop: 100
 	},
 	mainContainer: {
 		flex: 9,

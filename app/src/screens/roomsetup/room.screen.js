@@ -107,11 +107,14 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 30,
         fontWeight: '300',
-        marginLeft: 10
+        marginLeft: 10,
+				marginTop:40,
+				marginBottom:20,
+				alignSelf: 'center',
     },
     buttonContainer: {
 
-        alignItems: 'flex-end',
+        alignItems: 'center',
         marginRight: 20,
         marginTop: 30
     },

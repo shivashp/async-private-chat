@@ -13,7 +13,6 @@ export const App = StackNavigator({
     },
     Room: {
         screen: RoomSetup,
-
     },
     Chat: {
         screen: Chat
