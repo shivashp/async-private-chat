@@ -20,18 +20,35 @@ export class RoomSetup extends React.Component {
         }
         this.nickName = ''
         this.roomName = ''
+        this.websocket = null
     }
 
     onPress = () => {
         let err  = this.handleError()
-        
         //no error
         if(!err) {
-            navigate(
-                'Chat',
-                this
-            )
+            //creare a socket object and when connected pass to the navigate
+            this.websocket = new WebSocket(`ws://192.168.100.6:5000/${this.roomName}`)
+            this.websocket.onopen = this.onSocketOpen
         }
+    }
+
+		componentWillUnMount() {
+			if(this.websocket !== null) {
+				this.websocket.close();
+			}
+		}
+
+    onSocketOpen = () => {
+        navigate(
+            'Chat',
+            this,
+            params= {
+                nickName: this.nickName,
+								roomName: this.roomName,
+                websocket: this.websocket
+            }
+        )
     }
 
     handleError = () => {
@@ -93,7 +110,7 @@ const styles = StyleSheet.create({
         marginLeft: 10
     },
     buttonContainer: {
-        
+
         alignItems: 'flex-end',
         marginRight: 20,
         marginTop: 30

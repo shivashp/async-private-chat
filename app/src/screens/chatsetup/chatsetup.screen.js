@@ -19,19 +19,19 @@ export class ChatSetup extends React.Component {
 	onPress = (action) => {
 		switch (action) {
 			case ChatSetup.CREATE_ROOM:
-				
+
 				navigate('Room', this)
 				break;
 
 			case ChatSetup.JOIN_ROOM:
 				navigate('Join', this)
 				break;
-				
+
 			default:
 				break;
 		}
 	}
-	
+
 
 	render() {
 		return (
@@ -42,7 +42,7 @@ export class ChatSetup extends React.Component {
 					</Text>
 				</View>
 				<View style={styles.mainContainer}>
-					<RkButton rkType='rounded' 
+					<RkButton rkType='rounded'
 						style={styles.button}
 						onPress={() => this.onPress(ChatSetup.CREATE_ROOM)}
 					>
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: 40,
 		fontWeight: '300',
-		
+
 	},
 	titleContainer: {
 		flex: 2,

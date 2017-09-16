@@ -31,79 +31,75 @@ export class Chat extends React.Component {
 		UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 		this.state = {
 		data: {
-					messages: [
-						{
-							id: 1,
-							text: "Hello User",
-							time: new Date(),
-							type: 'out'
-						},
-						{
-							id: 1,
-							text: "How are you? ",
-							time: new Date(),
-							type: 'out'
-						},
-						{
-							id: 2,
-							text: "How are you? ",
-							time: new Date(),
-							type: 'out'
-						},
-						{
-							id: 3,
-							text: "How are you? ",
-							time: new Date(),
-							type: 'out'
-						},
-						{
-							id: 4,
-							text: "How are you? ",
-							time: new Date(),
-							type: 'out'
-						},
-						{
-							id: 5,
-							text: "How are you? ",
-							time: new Date(),
-							type: 'in'
-						},
-			{
-							id: 6,
-							text: "I am good ",
-							time: new Date(),
-							type: 'in'
-						},
-			{
-							id: 7,
-							text: "Tell me more",
-							time: new Date(),
-							type: 'in'
-						},
-					]
+					messages: []
 				}
 		};
 	}
 
-  componentWillMount() {
-    BackHandler.addEventListener('hardwareBackPress', function() {
-     Keyboard.dismiss();
-     return false;
-    });
-  }
+  static navigationOptions = ({navigation}) => {
+    const { params } = navigation.state
 
-  componentWillUnMount() {
-    BackHandler.removeEventListener('hardwareBackPress', function() {
-     return false;
-    });
-  }
+    let renderTitle = (roomName) => {
+      return (
+        <View style={styles.header}>
+          <RkText rkType='header5'>{roomName.toUpperCase()}</RkText>
+        </View>
+      )
+    };
+
+    let title = renderTitle(params.roomName);
+    return (
+      {
+        headerTitle: title
+      });
+  };
 
 	componentDidMount() {
+		const { params } = this.props.navigation.state;
+		let websocket = params.websocket;
+    this.roomName = params.roomName;
+    this.nickName = params.nickName;
+    websocket.onmessage = this.onMessage;
     InteractionManager.runAfterInteractions(() => {
-      this.refs.list.scrollToEnd();
-    });
+		    this.refs.list.scrollToEnd();
+		});
   }
-	_scroll() {
+
+  componentWillUnmount() {
+    const { params } = this.props.navigation.state;
+		params.websocket.close();
+  }
+
+  onMessage = (e) => {
+    let data = JSON.parse(e.data);
+    this.updateMessage(this.createMessageObj(data.text, data.time, 'in', data.nickName))
+  }
+
+  createMessageObj = (message, time = new Date(), type = 'out', nickName=this.nickName)  => {
+    return {
+      id: this.state.data.messages.length,
+      time: new Date(),
+      type,
+      text: message,
+      nickName
+    };
+  }
+
+  updateMessage = (obj) => {
+    let messages = this.state.data.messages;
+  	this.setState({
+			data: {
+				messages: [
+					...messages,
+					obj
+				]
+			},
+			message: ''
+		})
+    this._scroll(true);
+  }
+
+	_scroll = () => {
     if (Platform.OS === 'ios') {
       this.refs.list.scrollToEnd();
     } else {
@@ -114,24 +110,11 @@ export class Chat extends React.Component {
 	_pushMessage() {
     if (!this.state.message)
       return;
-    let msg = {
-      id: this.state.data.messages.length,
-      time: new Date(),
-      type: 'out',
-      text: this.state.message
-    };
-    let messages = this.state.data.messages;
-  	this.setState({
-			data: {
-				messages: [
-					...messages,
-					msg
-				]
-			},
-			message: ''
-		})
-
-    this._scroll(true);
+    const { params } = this.props.navigation.state
+		let websocket = params.websocket
+    let msg = this.createMessageObj(this.state.message);
+    this.updateMessage(msg);
+    websocket.send(JSON.stringify(msg));
   }
 
 		_keyExtractor(post, index) {
@@ -154,7 +137,7 @@ export class Chat extends React.Component {
 	      <View style={[styles.item, itemStyle]}>
 	        {!inMessage && renderDate(info.item.date)}
 	        <View style={[styles.balloon, {backgroundColor}]}>
-						<RkText rkType='primary2 mediumLine chat' style={styles.nickname}>Shiva pandey</RkText>
+						<RkText rkType='primary2 mediumLine chat' style={styles.nickname}>{info.item.nickName}</RkText>
 	          <RkText rkType='primary2 mediumLine chat'>{info.item.text}</RkText>
 	        </View>
 	        {inMessage && renderDate(info.item.date)}
@@ -183,7 +166,7 @@ export class Chat extends React.Component {
             onBlur={() => this._scroll(true)}
             onChangeText={(message) => this.setState({message})}
             value={this.state.message}
-						style={{flex:1}}
+						style={{flex:1, backgroundColor: 'white'}}
             rkType='rounded'
             placeholder="Type your message..."/>
 
@@ -198,7 +181,9 @@ export class Chat extends React.Component {
 
 let styles = RkStyleSheet.create(theme => ({
   header: {
-    alignItems: 'center'
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginLeft: -25
   },
   avatar: {
     marginRight: 16,
@@ -208,11 +193,10 @@ let styles = RkStyleSheet.create(theme => ({
     backgroundColor: theme.colors.screen.base
   },
   list: {
-    paddingHorizontal: 17
+    paddingHorizontal: 17,
   },
   footer: {
-    flexDirection: 'row',
-    marginTop:20,
+    flexDirection: 'row',    
     minHeight: 60,
     padding: 10,
     backgroundColor: '#f2f2f2'
@@ -250,6 +234,6 @@ let styles = RkStyleSheet.create(theme => ({
     width: 40,
     height: 40,
     marginLeft: 10,
-    marginTop:10
+    marginTop:(Platform.OS === 'ios')?20:10
   }
 }));

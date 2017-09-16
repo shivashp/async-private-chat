@@ -8,15 +8,15 @@ import {
 } from './screens'
 
 export const App = StackNavigator({
-    Chat: {
-        screen: Chat
-    },
     ChatSetup: {
         screen: ChatSetup
     },
     Room: {
         screen: RoomSetup,
 
+    },
+    Chat: {
+        screen: Chat
     },
     Setup: {
         screen: ChatSetup

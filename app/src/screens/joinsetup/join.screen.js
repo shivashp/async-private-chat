@@ -25,17 +25,28 @@ export class JoinSetup extends React.Component {
         this.nickName = ''
     }
 
-    onPress = () => {
-        let err  = this.handleError()
-        
-        //no error
-        if(!err) {
-            navigate(
-                'Chat',
-                this
-            )
-        }
-    }
+		onPress = () => {
+				let err  = this.handleError()
+				//no error
+				if(!err) {
+						//creare a socket object and when connected pass to the navigate
+						this.websocket = new WebSocket(`ws://192.168.100.6:5000/${this.tokenName}`)
+						this.websocket.onopen = this.onSocketOpen
+
+				}
+		}
+
+		onSocketOpen = () => {
+				navigate(
+						'Chat',
+						this,
+						params= {
+								nickName: this.nickName,
+								roomName: this.tokenName,
+								websocket: this.websocket
+						}
+				)
+		}
 
     handleError = () => {
 
@@ -48,7 +59,7 @@ export class JoinSetup extends React.Component {
         })
         return istokenNameError || isnickNameError
 	}
-	
+
     onTextInputChange = name => text => {
         this[name] = text.trim()
     }
@@ -97,7 +108,7 @@ const styles = StyleSheet.create({
         marginLeft: 10
     },
     buttonContainer: {
-        
+
         alignItems: 'flex-end',
         marginRight: 20,
         marginTop: 30
