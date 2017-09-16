@@ -6,7 +6,8 @@ import {
   Image,
   TouchableOpacity,
   Keyboard,
-	StatusBar
+	StatusBar,
+  Alert
 } from 'react-native';
 import {InteractionManager} from 'react-native';
 import {
@@ -80,6 +81,7 @@ export class Chat extends React.Component {
 			}
     };
   }
+
 	componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
       this.refs.list.scrollToEnd();
@@ -115,17 +117,6 @@ export class Chat extends React.Component {
 
     this._scroll(true);
   }
-
-	renderTitle = (user) => {
-      return (
-        <TouchableOpacity onPress={() => console.log("Button Pressed")}>
-          <View style={styles.header}>
-            <RkText rkType='header5'>{`${user.firstName} ${user.lastName}`}</RkText>
-            <RkText rkType='secondary3 secondaryColor'>Online</RkText>
-          </View>
-        </TouchableOpacity>
-      )
-    };
 
 		_keyExtractor(post, index) {
 	    return post.id;
