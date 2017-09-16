@@ -6,7 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Keyboard,
-	Text
+	StatusBar
 } from 'react-native';
 import {InteractionManager} from 'react-native';
 import {
@@ -29,20 +29,61 @@ export class Chat extends React.Component {
       data: {
 				messages: [
 					{
-						id: 1,
+						id: 0,
 						text: "Hello User",
 						time: new Date(),
-						type: 'string'
+						type: 'out'
+					},
+					{
+						id: 1,
+						text: "How are you? ",
+						time: new Date(),
+						type: 'out'
 					},
 					{
 						id: 2,
 						text: "How are you? ",
 						time: new Date(),
-						type: 'string'
-					}
+						type: 'out'
+					},
+					{
+						id: 3,
+						text: "How are you? ",
+						time: new Date(),
+						type: 'out'
+					},
+					{
+						id: 4,
+						text: "How are you? ",
+						time: new Date(),
+						type: 'out'
+					},
+					{
+						id: 5,
+						text: "How are you? ",
+						time: new Date(),
+						type: 'in'
+					},
+          {
+						id: 6,
+						text: "I am good ",
+						time: new Date(),
+						type: 'in'
+					},
+          {
+						id: 7,
+						text: "Tell me more",
+						time: new Date(),
+						type: 'in'
+					},
 				]
 			}
     };
+  }
+	componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
+      this.refs.list.scrollToEnd();
+    });
   }
 	_scroll() {
     if (Platform.OS === 'ios') {
@@ -51,6 +92,30 @@ export class Chat extends React.Component {
       _.delay(() => this.refs.list.scrollToEnd(), 100);
     }
   }
+
+	_pushMessage() {
+    if (!this.state.message)
+      return;
+    let msg = {
+      id: this.state.data.messages.length,
+      time: new Date(),
+      type: 'out',
+      text: this.state.message
+    };
+    let messages = this.state.data.messages;
+  	this.setState({
+			data: {
+				messages: [
+					...messages,
+					msg
+				]
+			},
+			message: ''
+		})
+
+    this._scroll(true);
+  }
+
 	renderTitle = (user) => {
       return (
         <TouchableOpacity onPress={() => console.log("Button Pressed")}>
@@ -82,6 +147,7 @@ export class Chat extends React.Component {
 	      <View style={[styles.item, itemStyle]}>
 	        {!inMessage && renderDate(info.item.date)}
 	        <View style={[styles.balloon, {backgroundColor}]}>
+						<RkText rkType='primary2 mediumLine chat' style={styles.nickname}>Shiva pandey</RkText>
 	          <RkText rkType='primary2 mediumLine chat'>{info.item.text}</RkText>
 	        </View>
 	        {inMessage && renderDate(info.item.date)}
@@ -90,6 +156,10 @@ export class Chat extends React.Component {
 	  }
 
 	render() {
+    <StatusBar
+     backgroundColor="blue"
+     barStyle="light-content"
+   />
 		return (
 			<RkAvoidKeyboard style={styles.container} onResponderRelease={(event) => {
         Keyboard.dismiss();
@@ -112,7 +182,7 @@ export class Chat extends React.Component {
             value={this.state.message}
 						style={{flex:1}}
             rkType='row sticker'
-            placeholder="Add a comment..."/>
+            placeholder="Type your message..."/>
 
           <RkButton onPress={() => this._pushMessage()} style={styles.send} rkType='circle highlight'>
             <Image source={require('../../assets/icons/sendIcon.png')}/>
@@ -159,8 +229,14 @@ let styles = RkStyleSheet.create(theme => ({
   },
   time: {
     alignSelf: 'flex-end',
-    margin: 15
+    margin: 15,
+		fontSize:10
   },
+	nickname: {
+		marginBottom:5,
+		fontSize:10,
+		color: '#097fe5'
+	},
   plus: {
     paddingVertical: 10,
     paddingHorizontal: 10,
