@@ -1,6 +1,16 @@
 {
   "expo": {
+    "name": "AnoChat",
+    "icon": "./src/assets/icons/icon.png",
+    "version": "1.0.0",
+    "slug": "chat-app",
     "sdkVersion": "20.0.0",
+    "ios": {
+      "bundleIdentifier": "com.freakoids.anochat"
+    },
+    "android": {
+      "package": "com.freakoids.anochat"
+    },
     "androidStatusBar": {
       "barStyle": "light-content",
       "backgroundColor": "#000000"

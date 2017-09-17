@@ -30,7 +30,7 @@ export class JoinSetup extends React.Component {
 				//no error
 				if(!err) {
 						//creare a socket object and when connected pass to the navigate
-						this.websocket = new WebSocket(`ws://192.168.100.6:5000/${this.tokenName}`)
+						this.websocket = new WebSocket(`ws://182.93.91.147:5000/${this.tokenName}`)
 						this.websocket.onopen = this.onSocketOpen
 
 				}
